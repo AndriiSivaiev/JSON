@@ -1,0 +1,402 @@
+Это описание грамматики JSON в форме МакКимана. Этот формат описывает структуру JSON и правила, по которым его можно создавать.
+
+В этой грамматике:
+
+json - это основной элемент. JSON-документ всегда начинается с этого элемента.
+value - это либообъект, либо массив, либо строка, либо число, либо одно из специальных значений true, false или null.
+object - это набор пар ключ-значение в фигурных скобках {}.
+array - это упорядоченный список значений в квадратных скобках [].
+string - это последовательность символов в двойных кавычках "".
+number - это числовое значение.
+members - это набор пар ключ-значение в объекте.
+member - это отдельная пара ключ-значение в объекте.
+elements - это список элементов в массиве.
+element - это отдельный элемент в массиве.
+characters - это последовательность символов в строке.
+character - это отдельный символ в строке.
+escape - это символ экранирования в строке.
+hex - это шестнадцатеричное число в строке.
+integer, fraction, exponent, sign - это составляющие числового значения.
+ws - это пробельные символы.
+
+Этот формат описания грамматики позволяет понять структуру JSON и то, какие символы и элементы допустимы в JSON-документе.
+User
+example по каждому
+ChatGPT
+
+Разумеется, давайте разберем каждый элемент грамматики JSON с примерами.
+1. json
+
+ebnf
+
+json
+element
+
+Пример:
+
+json
+
+{
+"name": "John",
+"age": 30,
+"city": "New York"
+}
+
+2. value
+
+ebnf
+
+value
+object
+array
+string
+number
+"true"
+"false"
+"null"
+
+Примеры:
+Объект:
+
+json
+
+{"key": "value"}
+
+Массив:
+
+json
+
+["value1", "value2", "value3"]
+
+Строка:
+
+json
+
+"string value"
+
+Число:
+
+json
+
+123.45
+
+Специальные значения:
+
+json
+
+true
+false
+null
+
+3. object
+
+ebnf
+
+object
+'{' ws '}'
+'{' members '}'
+
+Пример:
+
+json
+
+{}
+
+или
+
+json
+
+{"name": "John", "age": 30, "city": "New York"}
+
+4. members
+
+ebnf
+
+members
+member
+member ',' members
+
+Пример:
+
+json
+
+"name": "John", "age": 30, "city": "New York"
+
+5. member
+
+ebnf
+
+member
+ws string ws ':' element
+
+Пример:
+
+json
+
+"name": "John"
+
+6. array
+
+ebnf
+
+array
+'[' ws ']'
+'[' elements ']'
+
+Пример:
+
+json
+
+[]
+
+или
+
+json
+
+["John", 30, "New York"]
+
+7. elements
+
+ebnf
+
+elements
+element
+element ',' elements
+
+Пример:
+
+json
+
+"John", 30, "New York"
+
+8. element
+
+ebnf
+
+element
+ws value ws
+
+Пример:
+
+json
+
+"John"
+
+9. string
+
+ebnf
+
+string
+'"' characters '"'
+
+Пример:
+
+json
+
+"John"
+
+10. characters
+
+ebnf
+
+characters
+""
+character characters
+
+Пример:
+
+json
+
+"John"
+
+11. character
+
+ebnf
+
+character
+'0020' . '10FFFF' - '"' - '\'
+'\' escape
+
+Пример:
+
+json
+
+"J"
+
+12. escape
+
+ebnf
+
+escape
+'"'
+'\'
+'/'
+'b'
+'f'
+'n'
+'r'
+'t'
+'u' hex hex hex hex
+
+Пример:
+
+json
+
+"\n"
+
+13. hex
+
+ebnf
+
+hex
+digit
+'A' . 'F'
+'a' . 'f'
+
+Пример:
+
+json
+
+"\u004A"
+
+14. number
+
+ebnf
+
+number
+integer fraction exponent
+
+Пример:
+
+json
+
+123.45
+
+15. integer
+
+ebnf
+
+integer
+digit
+onenine digits
+'-' digit
+'-' onenine digits
+
+Пример:
+
+json
+
+123
+
+или
+
+json
+
+-123
+
+16. digits
+
+ebnf
+
+digits
+digit
+digit digits
+
+Пример:
+
+json
+
+123
+
+17. digit
+
+ebnf
+
+digit
+'0'
+onenine
+
+Пример:
+
+json
+
+1
+
+18. onenine
+
+ebnf
+
+onenine
+'1' . '9'
+
+Пример:
+
+json
+
+1
+
+19. fraction
+
+ebnf
+
+fraction
+""
+'.' digits
+
+Пример:
+
+json
+
+123.45
+
+20. exponent
+
+ebnf
+
+exponent
+""
+'E' sign digits
+'e' sign digits
+
+Пример:
+
+json
+
+1.23E4
+
+21. sign
+
+ebnf
+
+sign
+""
+'+'
+'-'
+
+Пример:
+
+json
+
+-123.45
+
+22. ws
+
+ebnf
+
+ws
+""
+'0020' ws
+'000A' ws
+'000D' ws
+'0009' ws
+
+Пример:
+
+json
+
+{
+"name": "John",
+"age": 30,
+"city": "New York"
+}
+
